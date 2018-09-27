@@ -44,7 +44,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form class="form-horizontal form-label-left" id="myForm">
+                    <form class="form-horizontal form-label-left" id="myForm" enctype="multipart/form-data">
                         <?php if($this->uri->segment(2) == 'update') : ?>
                         <div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Nama Perusahaan<span class="required">*</span></label>
@@ -91,7 +91,7 @@
                                 </select>
                             </div>
                         </div>
-                        <?php endif;?>
+                        <?php endif;?><!-- 
                         <div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Laba Bersih<span class="required">*</span></label>
                             <div class="col-md-6">
@@ -116,7 +116,14 @@
                                 <input type="text" name="modal" class="form-control" value="<?=isset($list_data['jumlah_modal'])? $list_data['jumlah_modal'] : set_value('jumlah_modal');?>">
                             </div>
                         </div>
-                        <div class="ln_solid"></div>
+ -->
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Upload File<span class="required">*</span></label>
+                            <div class="col-md-6">
+                                <input type="file" name="file" class="form-control">
+                            </div>
+                        </div>
+                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-2">
                                 <a href="<?=base_url('list_data')?>">

@@ -7,6 +7,7 @@ class List_data extends MX_Controller {
 	{
 		parent::__construct();
 		$this->load->model('m_global', 'global');
+        $this->load->library(array('PHPExcel','PHPExcel/IOFactory'));
 	}
 
 	public function index()
@@ -56,34 +57,55 @@ class List_data extends MX_Controller {
 		} else {
 			$id_perusahaan 		= $this->input->post('id_perusahaan');
 			$tahun		 		= $this->input->post('tahun');
-			$laba 			 	= $this->input->post('laba');
-			$saham 				= $this->input->post('saham');
-			$dividen 	 		= $this->input->post('dividen');
-			$modal 				= $this->input->post('modal');
+			$fileName 			= $_FILES['file']['name'];
+			  $config['upload_path'] = './assets/upload/'; 
+			  $config['file_name'] = $fileName;
+			  $config['allowed_types'] = 'xls|xlsx|csv|ods|ots';
+			  $config['max_size'] = 10000;
 
-			$data = [
-				'id_perusahaan'			=> $id_perusahaan,
-				'tahun' 				=> $tahun,
-				'laba_bersih' 			=> $laba,
-				'jumlah_saham' 			=> $saham,
-				'dividen_tunai' 		=> $dividen,
-				'jumlah_modal' 			=> $modal
-			];
-			$cek = $this->db->query("SELECT * FROM tb_data_keuangan WHERE id_perusahaan = $id_perusahaan AND tahun = $tahun")->row_array();
+			  $this->load->library('upload', $config);
+			  $this->upload->initialize($config); 
+			  
+			  if (!$this->upload->do_upload('file')) {
+				   $error = array('error' => $this->upload->display_errors());
+			  } else {
+			   $media = $this->upload->data();
+			   $inputFileName = './assets/upload/'.$media['file_name'];
+			   try {
+			    $inputFileType = IOFactory::identify($inputFileName);
+			    $objReader = IOFactory::createReader($inputFileType);
+			    $objPHPExcel = $objReader->load($inputFileName);
+			   } catch(Exception $e) {
+			    die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
+			   }
 
-			if(!empty($cek)){
-				$result['error']	= FALSE;
-				$result['type']		= 'Failed';
-				$result['message']	= 'Data exist!';
-			}else{
-				$this->global->create('tb_data_keuangan', $data);
-
-				$result['error']	= FALSE;
-				$result['type']		= 'success';
-				$result['message']	= 'Success Added!';
+			   $sheet = $objPHPExcel->getSheet(0);
+			   $highestRow = $sheet->getHighestRow();
+			   $highestColumn = $sheet->getHighestColumn();
+			   $cek = $this->db->query("SELECT * FROM tb_data_keuangan WHERE id_perusahaan = $id_perusahaan AND tahun = $tahun")->row_array();
+				if(!empty($cek)){
+					$result['error']	= FALSE;
+					$result['type']		= 'Failed';
+					$result['message']	= 'Data exist!';
+				}else{
+				   for ($row = 1; $row <= $highestRow; $row++){  
+				     $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,NULL,TRUE,FALSE);
+						$data = [
+							'id_perusahaan'			=> $id_perusahaan,
+							'tahun' 				=> $tahun,
+							'laba_bersih' 			=> $rowData[0][0],
+							'jumlah_saham' 			=> $rowData[0][1],
+							'dividen_tunai' 		=> $rowData[0][2],
+							'jumlah_modal' 			=> $rowData[0][3]
+						];			   
+					$this->global->create('tb_data_keuangan', $data);
+				  	}
+					$result['error']	= FALSE;
+					$result['type']		= 'success';
+					$result['message']	= 'Success Added!';
+				}
+		        echo json_encode($result);	
 			}
-
-	        echo json_encode($result);	
 		}
 	}
 
