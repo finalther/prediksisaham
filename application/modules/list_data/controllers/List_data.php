@@ -41,9 +41,8 @@ class List_data extends MX_Controller {
 			}
 			
 			$data['all_data'] 	= $temp2;
-			// dd($temp2);
-
 		}
+		// dd($temp2);
 
 		$this->slice->view('v_list_data', $data);
 	}
@@ -155,13 +154,48 @@ class List_data extends MX_Controller {
 	    $div16 		= $_GET['div16'];
 	    $div17 		= $_GET['div17'];
 
+	    $P0 = 2; // Po dapat darimana ?
 
 	    // Hitung DPS = dividen tunai/jumlah saham
 	    $dps_15 = $div15/$saham15;
-	    // dd($dps_15);
+	    $dps_16 = $div16/$saham16;
+	    $dps_17 = $div17/$saham17;
+
 	    // Hitung EPS = laba_bersih/jumlah saham
-	    $eps_15 = $lb5/$saham15;
+	    $eps_15 = $lb15/$saham15;
+	    $eps_16 = $lb16/$saham16;
+	    $eps_17 = $lb17/$saham17;
+
+	    // Hitung ROE = laba bersih/ jumlah modal * 100%
+	    $roe_15 = ($lb15/$modal15);
+
+	    // Hitung DPR = DPS /EPS
+	    $dpr_15 = ($dps_15/$eps_15);
+	    $dpr_16 = ($dps_16/$eps_16);
+	    $dpr_17 = ($dps_17/$eps_17);
+	    // DPR rata-rata
+	    $dpr_rata2 = ( $dpr_15 + $dpr_16 + $dpr_17 ) / 3;
+		// Hitung g
+	    $g = $roe_15*(1-$dpr_15);
+
+	    // Hitung epst 
+	    $eps_t = $eps_15 *(1+ $g);
+
+	    // Hitung dpst 
+	    $dps_t = $eps_t * $dpr_rata2;
+
+	    // Hitung k
+	    $k = ( $dps_t/$P0  ) * $g;
+	    // dd($k);
 	    
+	    // Hitung estimasi PER
+	    $PER_t = ($dps_t / $eps_t ) / ($k - $g );
+	    // dd($estimasi_PER);
+
+	    //Hitung Instrinsik
+	    $intrinsik_saham = $eps_t * $PER_t;
+	    // dd($intrinsik_saham );
+
 
 	}
 

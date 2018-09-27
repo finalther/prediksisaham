@@ -138,21 +138,21 @@
                                 <td><?=$i++?></td>
                                 <td><?= $key;?></td>
                                 <!-- Laba -->
-                                <td><?=$val['2015'][0]['laba_bersih']?></td>
-                                <td><?=$val['2016'][0]['laba_bersih']?></td>
-                                <td><?=$val['2017'][0]['laba_bersih']?></td>
+                                <td><?= isset($val['2015'][0]['laba_bersih']) ? ($val['2015'][0]['laba_bersih'])  : ''; ?> </td>
+                                <td><?= isset($val['2016'][0]['laba_bersih']) ? ($val['2016'][0]['laba_bersih'])  : ''; ?> </td>
+                                <td><?= isset($val['2017'][0]['laba_bersih']) ? ($val['2017'][0]['laba_bersih'])  : ''; ?> </td>
                                 <!-- Jumlah modal -->
-                                <td><?=$val['2015'][0]['jumlah_modal']?></td>
-                                <td><?=$val['2016'][0]['jumlah_modal']?></td>
-                                <td><?=$val['2017'][0]['jumlah_modal']?></td>
+                                <td><?= isset($val['2015'][0]['jumlah_modal']) ? ($val['2015'][0]['jumlah_modal'])  : ''; ?> </td>
+                                <td><?= isset($val['2016'][0]['jumlah_modal']) ? ($val['2016'][0]['jumlah_modal'])  : ''; ?> </td>
+                                <td><?= isset($val['2017'][0]['jumlah_modal']) ? ($val['2017'][0]['jumlah_modal'])  : ''; ?> </td>
                                 <!-- Saham -->
-                                <td><?=$val['2015'][0]['jumlah_saham']?></td>
-                                <td><?=$val['2016'][0]['jumlah_saham']?></td>
-                                <td><?=$val['2017'][0]['jumlah_saham']?></td>
+                                <td><?= isset($val['2015'][0]['jumlah_saham']) ? ($val['2015'][0]['jumlah_saham'])  : ''; ?> </td>
+                                <td><?= isset($val['2016'][0]['jumlah_saham']) ? ($val['2016'][0]['jumlah_saham'])  : ''; ?> </td>
+                                <td><?= isset($val['2017'][0]['jumlah_saham']) ? ($val['2017'][0]['jumlah_saham'])  : ''; ?> </td>
                                 <!-- Dividen Tunai -->
-                                <td><?=$val['2015'][0]['dividen_tunai']?></td>
-                                <td><?=$val['2016'][0]['dividen_tunai']?></td>
-                                <td><?=$val['2017'][0]['dividen_tunai']?></td>
+                                <td><?= isset($val['2015'][0]['dividen_tunai']) ? ($val['2015'][0]['dividen_tunai'])  : ''; ?> </td>
+                                <td><?= isset($val['2016'][0]['dividen_tunai']) ? ($val['2016'][0]['dividen_tunai'])  : ''; ?> </td>
+                                <td><?= isset($val['2017'][0]['dividen_tunai']) ? ($val['2017'][0]['dividen_tunai'])  : ''; ?> </td>
                                 <!--    Hitung -->
                                 <td>
                                     <a href="<?=base_url('list_data/hitung?

@@ -49,7 +49,7 @@
                                 <th width="20%" colspan="3" style="text-align: center;">Jumlah Modal</th>
                                 <th width="20%" colspan="3" style="text-align: center;">Jumlah Saham</th>
                                 <th width="20%" colspan="3" style="text-align: center;">Dividen Tunai</th>
-                                <th width="20%" rowspan="2" style="text-align: center; border-left: 1px solid #ddd;">Action </th>
+                                <th width="20%" rowspan="2" style="text-align: center; border-left: 1px solid #ddd;">Keputusan </th>
                             </tr>
                             <tr style="background-color: #f7ee80bd;">
                                 <td width="5%">2015</td>
@@ -67,7 +67,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i=1; foreach($all_data as $key => $val): ?>
+
+                            <?php
+                             $i=1; 
+                             foreach($all_data as $key => $val): ?>
                             <tr>
                                 <td><?=$i++?></td>
                                 <td><?= $key;?></td>
@@ -87,8 +90,11 @@
                                 <td><?=$val['2015'][0]['dividen_tunai']?></td>
                                 <td><?=$val['2016'][0]['dividen_tunai']?></td>
                                 <td><?=$val['2017'][0]['dividen_tunai']?></td>
-                                <!--    Hitung -->
-                                <td style="text-align: center;"> - </a>
+                                <!--    Keputusan -->
+                                <td style="text-align: center;">
+                                    <?php 
+                                        echo $keputusan[$key][0];
+                                    ?>
                                 </td>
 
                             </tr>

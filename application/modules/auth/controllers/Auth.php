@@ -11,12 +11,18 @@ class Auth extends MX_Controller {
 
 	public function index()
 	{	
-				// Distinct nama perusahaan
-			$sql_d = "SELECT DISTINCT(b.nama_perusahaan) FROM tb_data_keuangan a,
-						tb_perusahaan b WHERE a.id_perusahaan = b.id_perusahaan";
-			$data['nama_perusahaan'] = $this->db->query($sql_d)->result_array();
+			$sql_d = "SELECT nama_perusahaan, keputusan FROM tb_perusahaan" ;
+			$data['keputusan'] = $this->db->query($sql_d)->result_array();
+			
+			// Group nama_perusahaan
+			foreach ($data['keputusan'] as $key => $value) {
+					$nm_perusahaan = $value['nama_perusahaan'];
+					$temps[$value['nama_perusahaan']][]= $value['keputusan'];
+			}
+			
+			$data['keputusan'] = $temps;
 
-			$sql 	= "SELECT a.*, b.nama_perusahaan FROM tb_data_keuangan a,
+			$sql 	= "SELECT a.*, b.nama_perusahaan, b.keputusan FROM tb_data_keuangan a,
 						tb_perusahaan b WHERE a.id_perusahaan = b.id_perusahaan";			
 			$data['all_data'] 	= $this->db->query($sql)->result_array();
 
@@ -31,9 +37,8 @@ class Auth extends MX_Controller {
 				ksort($value2);
 				$temp2[$key2] = $value2;
 			}
-			
 			$data['all_data'] 	= $temp2;
-			// dd($temp2);
+			// dd($data['keputusan']['PT. GreenHill Tbk'][0]);
 		$this->slice->view('v_login', $data);
 	}
 	
